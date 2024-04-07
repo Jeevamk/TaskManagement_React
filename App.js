@@ -21,34 +21,7 @@ function Table() {
         { name: 'Video Recap', value: 'Editing in progress', value2: ' ' },
     ];
 
-    // const [data, setData] = React.useState(initialData);
-
-    // const handleValueEdit = (index) => {
-    //     const newValue = prompt('Enter new value:', data[index].value);
-    //     if (newValue !== null) {
-    //         const newData = [...data];
-    //         newData[index].value = newValue;
-    //         setData(newData);
-    //     }
-    // };
-
-    // const tableRows = data.map((item, index) => (
-    //     React.createElement('tr', { key: index },
-    //         React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#ECF0F1 ' } }, item.name),
-    //         React.createElement('td', { style: { padding: '5px', border: '1px solid #000', cursor: 'pointer' }, onClick: () => handleValueEdit(index) }, item.value),
-    //         React.createElement('td', { style: { padding: '5px', border: '1px solid #000', width: '100px' } }, item.value2)
-    //     )
-    // ));
-
-    // const tableStyle = { borderCollapse: 'collapse' };
-
-    // return (
-    //     React.createElement('div', null,
-    //         React.createElement('table', { style: tableStyle },
-    //             React.createElement('tbody', null, tableRows)
-    //         )
-    //     )
-    // );
+    
     const [data, setData] = React.useState(initialData);
     const [editIndex, setEditIndex] = React.useState(null);
     const [newValue, setNewValue] = React.useState('');
@@ -74,7 +47,9 @@ function Table() {
         React.createElement('div', { className: 'modal' },
             React.createElement('div', { className: 'modal-content' },
                 React.createElement('input', { type: 'text', value: newValue, onChange: (e) => setNewValue(e.target.value),className:'input' }),
-                React.createElement('button', { onClick: handleSave }, 'Save')
+                React.createElement('button', { onClick: handleSave ,className:'saveBtn' }, 'Save'),
+                React.createElement('button', { className: 'closeBtn', onClick: () => setModalIsOpen(false) }, 'Close'),
+
             )
         )
     ) : null;
