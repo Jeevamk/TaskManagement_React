@@ -27,6 +27,7 @@ function Table() {
     const [newValue, setNewValue] = React.useState('');
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
+
     const handleValueEdit = (index) => {
         setEditIndex(index);
         setNewValue(data[index].value);
@@ -54,14 +55,28 @@ function Table() {
         )
     ) : null;
 
-    const tableRows = data.map((item, index) => (
-        React.createElement('tr', { key: index },
-            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#D0D3D4' } }, item.name),
-            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', cursor: 'pointer' }, onClick: () => handleValueEdit(index) }, item.value),
-            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', width: '100px' } }, item.value2)
-        )
-    ));
 
+    const tableRows = (
+        React.createElement('table', { style: { borderCollapse: 'collapse' } },
+            React.createElement('tbody', null, 
+                [
+                    React.createElement('tr', { key: 'heading' },
+                        React.createElement('td', { colSpan: '3', style: { padding: '5px', border: '1px solid #000', backgroundColor: '#D0D3D4' } }, 'MONTH1')
+                    ),
+    
+                    ...data.map((item, index) => (
+                        React.createElement('tr', { key: index },
+                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#D0D3D4' } }, item.name),
+                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', cursor: 'pointer' }, onClick: () => handleValueEdit(index) }, item.value),
+                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', width: '100px' } }, item.value2)
+                        )
+                    ))
+                ]
+            )
+        )
+    );
+    
+  
     return (
         React.createElement('div', null,
             React.createElement('table', { style: { borderCollapse: 'collapse' } },
