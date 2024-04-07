@@ -78,7 +78,7 @@ function Table() {
     
   
     return (
-        React.createElement('div',{ style: { textAlign: 'center' } },
+        React.createElement('div',{ style: { display: 'flex',justifyContent: 'center'} },
             React.createElement('table', { style: { borderCollapse: 'collapse',margin:'auto'} },
                 React.createElement('tbody', null, tableRows)
             ),
