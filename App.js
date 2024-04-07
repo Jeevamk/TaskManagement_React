@@ -21,32 +21,78 @@ function Table() {
         { name: 'Video Recap', value: 'Editing in progress', value2: ' ' },
     ];
 
+    // const [data, setData] = React.useState(initialData);
+
+    // const handleValueEdit = (index) => {
+    //     const newValue = prompt('Enter new value:', data[index].value);
+    //     if (newValue !== null) {
+    //         const newData = [...data];
+    //         newData[index].value = newValue;
+    //         setData(newData);
+    //     }
+    // };
+
+    // const tableRows = data.map((item, index) => (
+    //     React.createElement('tr', { key: index },
+    //         React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#ECF0F1 ' } }, item.name),
+    //         React.createElement('td', { style: { padding: '5px', border: '1px solid #000', cursor: 'pointer' }, onClick: () => handleValueEdit(index) }, item.value),
+    //         React.createElement('td', { style: { padding: '5px', border: '1px solid #000', width: '100px' } }, item.value2)
+    //     )
+    // ));
+
+    // const tableStyle = { borderCollapse: 'collapse' };
+
+    // return (
+    //     React.createElement('div', null,
+    //         React.createElement('table', { style: tableStyle },
+    //             React.createElement('tbody', null, tableRows)
+    //         )
+    //     )
+    // );
     const [data, setData] = React.useState(initialData);
+    const [editIndex, setEditIndex] = React.useState(null);
+    const [newValue, setNewValue] = React.useState('');
+    const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
     const handleValueEdit = (index) => {
-        const newValue = prompt('Enter new value:', data[index].value);
-        if (newValue !== null) {
+        setEditIndex(index);
+        setNewValue(data[index].value);
+        setModalIsOpen(true);
+    };
+
+    const handleSave = () => {
+        if (editIndex !== null) {
             const newData = [...data];
-            newData[index].value = newValue;
+            newData[editIndex].value = newValue;
             setData(newData);
         }
+        setEditIndex(null);
+        setModalIsOpen(false);
     };
+
+    const modal = modalIsOpen ? (
+        React.createElement('div', { className: 'modal' },
+            React.createElement('div', { className: 'modal-content' },
+                React.createElement('input', { type: 'text', value: newValue, onChange: (e) => setNewValue(e.target.value),className:'input' }),
+                React.createElement('button', { onClick: handleSave }, 'Save')
+            )
+        )
+    ) : null;
 
     const tableRows = data.map((item, index) => (
         React.createElement('tr', { key: index },
-            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#ECF0F1 ' } }, item.name),
+            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#D0D3D4' } }, item.name),
             React.createElement('td', { style: { padding: '5px', border: '1px solid #000', cursor: 'pointer' }, onClick: () => handleValueEdit(index) }, item.value),
             React.createElement('td', { style: { padding: '5px', border: '1px solid #000', width: '100px' } }, item.value2)
         )
     ));
 
-    const tableStyle = { borderCollapse: 'collapse' };
-
     return (
         React.createElement('div', null,
-            React.createElement('table', { style: tableStyle },
+            React.createElement('table', { style: { borderCollapse: 'collapse' } },
                 React.createElement('tbody', null, tableRows)
-            )
+            ),
+            modal
         )
     );
 }
