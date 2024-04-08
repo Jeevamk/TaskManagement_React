@@ -90,7 +90,13 @@ function Table() {
                 throw new Error('Failed to send message');
             }
         })
-        console.log(jsonData); 
+        .then(data => {
+            console.log('Data sent successfully:', data);
+            alert("Data sent successfully")
+        }).catch(error => {
+            console.error('Error sending message:', error);
+            alert('Failed to send message');
+        })
     };
 
     const tableRows = (
