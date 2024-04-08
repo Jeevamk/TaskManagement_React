@@ -80,17 +80,30 @@ function Table() {
         )
     ) : null;
 
+    const sendData = () => {
+        const jsonData = JSON.stringify(data);
+        fetch(`https://api.telegram.org/bot7066844383:AAGKj3IFurgBMfJ7XDlztm1NknvxdXA4330/sendMessage?chat_id=@taskmanagementbyjeeva&text=${jsonData}`)
+        .then(response => {
+            if (response.ok){
+                return response.json()
+            }else{
+                throw new Error('Failed to send message');
+            }
+        })
+        console.log(jsonData); 
+    };
+
     const tableRows = (
         React.createElement('table', { style: { borderCollapse: 'collapse'} },
             React.createElement('tbody', null, 
                 [
                     React.createElement('tr', { key: 'heading' },
-                        React.createElement('td', { colSpan: '3', style: { padding: '5px', border: '1px solid #000', backgroundColor: '#D0D3D4', textAlign: 'center' } }, 'MONTH1')
+                        React.createElement('td', { colSpan: '3', style: { padding: '5px', border: '1px solid #000', backgroundColor: '#E5E7E9', textAlign: 'center' } }, 'MONTH1')
                     ),
     
                     ...data.map((item, index) => (
                         React.createElement('tr', { key: index },
-                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#D0D3D4', textAlign: 'center' } }, item.name),
+                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#E5E7E9', textAlign: 'center' } }, item.name),
                             React.createElement('td', { style: { padding: '5px', border: '1px solid #000', cursor: 'pointer' }, onClick: () => handleValueEdit(index) }, item.value),
                             React.createElement('td', { style: { padding: '5px', border: '1px solid #000', width: '100px', cursor: 'pointer' }, onClick: () => handleValueEdit2(index) }, item.value2)
                         )
@@ -101,12 +114,13 @@ function Table() {
     );
 
     return (
-        React.createElement('div', { style: { display: 'flex', justifyContent: 'center' } },
+        React.createElement('div', { style: { display: 'grid', justifyContent: 'center' } },
             React.createElement('table', { style: { borderCollapse: 'collapse', margin: 'auto' } },
                 React.createElement('tbody', null, tableRows)
             ),
             modal,
-            modal2
+            modal2,
+            React.createElement('button',{ style : {textAlign:'center',marginTop:'6px',padding:'3px',backgroundColor:'#D0D3D4',cursor:'pointer',border: '1px solid #000'}, onClick : ()=> sendData()},'Send')
         )
     );
 }
