@@ -21,17 +21,23 @@ function Table() {
         { name: 'Video Recap', value: 'Editing in progress', value2: ' ' },
     ];
 
-    
     const [data, setData] = React.useState(initialData);
     const [editIndex, setEditIndex] = React.useState(null);
     const [newValue, setNewValue] = React.useState('');
+    const [newValue2, setNewValue2] = React.useState('');
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
-
+    const [modalIsOpen2, setModalIsOpen2] = React.useState(false);
 
     const handleValueEdit = (index) => {
         setEditIndex(index);
         setNewValue(data[index].value);
         setModalIsOpen(true);
+    };
+
+    const handleValueEdit2 = (index) => {
+        setEditIndex(index);
+        setNewValue2(data[index].value2);
+        setModalIsOpen2(true);
     };
 
     const handleSave = () => {
@@ -44,17 +50,35 @@ function Table() {
         setModalIsOpen(false);
     };
 
+    const handleSave2 = () => {
+        if (editIndex !== null) {
+            const newData = [...data];
+            newData[editIndex].value2 = newValue2;
+            setData(newData);
+        }
+        setEditIndex(null);
+        setModalIsOpen2(false);
+    };
+
     const modal = modalIsOpen ? (
         React.createElement('div', { className: 'modal' },
             React.createElement('div', { className: 'modal-content' },
-                React.createElement('input', { type: 'text', value: newValue, onChange: (e) => setNewValue(e.target.value),className:'input' }),
-                React.createElement('button', { onClick: handleSave ,className:'saveBtn' }, 'Save'),
-                React.createElement('button', { className: 'closeBtn', onClick: () => setModalIsOpen(false) }, 'Close'),
-
+                React.createElement('input', { type: 'text', value: newValue, autoFocus: true, onChange: (e) => setNewValue(e.target.value), className: 'input' }),
+                React.createElement('button', { onClick: handleSave, className: 'saveBtn' }, 'Save'),
+                React.createElement('button', { className: 'closeBtn', onClick: () => setModalIsOpen(false) }, 'Close')
             )
         )
     ) : null;
 
+    const modal2 = modalIsOpen2 ? (
+        React.createElement('div', { className: 'modal' },
+            React.createElement('div', { className: 'modal-content' },
+                React.createElement('input', { type: 'text', value: newValue2, autoFocus: true, onChange: (e) => setNewValue2(e.target.value), className: 'input' }),
+                React.createElement('button', { onClick: handleSave2, className: 'saveBtn' }, 'Save'),
+                React.createElement('button', { className: 'closeBtn', onClick: () => setModalIsOpen2(false) }, 'Close')
+            )
+        )
+    ) : null;
 
     const tableRows = (
         React.createElement('table', { style: { borderCollapse: 'collapse'} },
@@ -66,26 +90,25 @@ function Table() {
     
                     ...data.map((item, index) => (
                         React.createElement('tr', { key: index },
-                        React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#D0D3D4', textAlign: 'center' } }, item.name),
-                        React.createElement('td', { style: { padding: '5px', border: '1px solid #000', cursor: 'pointer' }, onClick: () => handleValueEdit(index) }, item.value),
-                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', width: '100px' } }, item.value2)
+                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', backgroundColor: '#D0D3D4', textAlign: 'center' } }, item.name),
+                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', cursor: 'pointer' }, onClick: () => handleValueEdit(index) }, item.value),
+                            React.createElement('td', { style: { padding: '5px', border: '1px solid #000', width: '100px', cursor: 'pointer' }, onClick: () => handleValueEdit2(index) }, item.value2)
                         )
                     ))
                 ]
             )
         )
     );
-    
-  
+
     return (
-        React.createElement('div',{ style: { display: 'flex',justifyContent: 'center'} },
-            React.createElement('table', { style: { borderCollapse: 'collapse',margin:'auto'} },
+        React.createElement('div', { style: { display: 'flex', justifyContent: 'center' } },
+            React.createElement('table', { style: { borderCollapse: 'collapse', margin: 'auto' } },
                 React.createElement('tbody', null, tableRows)
             ),
-            modal
+            modal,
+            modal2
         )
     );
 }
 
 export default Table;
-
